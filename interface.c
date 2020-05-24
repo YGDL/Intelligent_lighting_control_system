@@ -17,10 +17,7 @@ void Interface_1(void)
 	RTC_ITConfig(RTC_IT_SEC, DISABLE);		//关闭秒中断，闹钟中断
 	OLED_Clear();
 	
-	if(Mode == 0)
-		Interface_1_Mode0();
-	else
-		Interface_1_Mode1();
+	Interface_1_Enum();
 	
 	OLED_Clear();							//初始界面绘图
 
@@ -35,7 +32,7 @@ void Interface_1(void)
 	
 }
 
-void Interface_1_Mode0(void)				//自动模式
+void Interface_1_Enum(void)				//自动模式
 {
 	s8 x = 0;
 
@@ -70,8 +67,10 @@ void Interface_1_Mode0(void)				//自动模式
 			if(KEY_3 == 0)
 			{
 				x -= 1;
-				if(x < 0)
+				if(x < 0 && Mode == 0)
 					x = 2;
+				if(x < 0 && Mode == 1)
+					x = 0;
 				OLED_Clear();
 				Display_Arrows(x);
 				Interface_1_Display(Mode);
@@ -79,7 +78,9 @@ void Interface_1_Mode0(void)				//自动模式
 			if(KEY_6 == 0)
 			{
 				x += 1;
-				if(x > 2)
+				if(x > 2 && Mode == 0)
+					x = 0;
+				if(x > 0 && Mode == 1)
 					x = 0;
 				OLED_Clear();
 				Display_Arrows(x);
@@ -88,23 +89,6 @@ void Interface_1_Mode0(void)				//自动模式
 		}
 	}
 	delay_ms(50);
-}
-
-void Interface_1_Mode1()
-{
-	Interface_1_Display(Mode);				//写界面1显示
-	Display_Arrows(0);
-	
-	while(1)
-	{
-		delay_ms(50);
-		if(KEY_1 == 0)
-			Mode_Set(&Mode);
-			Display_Arrows(0);
-		if(KEY_2 == 0)
-			break;
-	}
-	delay_ms(50);	
 }
 
 /********************************************************界面2******************************************************************************/
@@ -160,10 +144,6 @@ void Mode_Set(int* Mode)
 		TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);		//使能TIM3
 		
 		Alarm_Time_Set_();								//更新闹钟
-		if(Alarm == 0)
-			LED_ON;
-		else
-			LED_OFF;
 	}
 	else
 	{
@@ -543,8 +523,11 @@ void Alarm_Time_Set(u8 i)						//闹钟时间设置
 		Alarm_InitTypeDefStructer.minute = y >> 6 & 0x3f;
 		Alarm_InitTypeDefStructer.second = y & 0x3f;
 	}
+	
 	OLED_Clear();
+	Interface_2_Alarm_Set();
 	Interface_2_Alarm_Set_ON_OFF_Display(&Alarm_InitTypeDefStructer, x); 
+	
 	while(1)
 	{
 		delay_ms(50);

@@ -26,6 +26,7 @@ void Interface_0_Display(void);
 void Interface_2_Alarm_Set_Display(void);
 void Interface_2_Alarm_Set_ON_OFF_Display(Alarm_InitTypeDef* Alarm_InitTypeDefStructer, u8 i);
 void ON_OFF_Display(u8 i);
+void Interface_2_Alarm_Set(void);
 
 
 

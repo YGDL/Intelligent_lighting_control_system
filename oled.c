@@ -506,3 +506,12 @@ void ON_OFF_Display(u8 i)
 			break;
 	}
 }
+
+void Interface_2_Alarm_Set(void)
+{
+	OLED_Display(0, 6, 11, 16, 0);			//确
+	OLED_Display(16, 6, 12, 16, 0);			//定
+	
+	OLED_Display(96, 6, 13, 16, 0);			//取
+	OLED_Display(112, 6, 14, 16, 0);		//消
+}

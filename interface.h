@@ -10,8 +10,7 @@ extern int Mode;
 
 
 void Interface_1(void);
-void Interface_1_Mode0(void);
-void Interface_1_Mode1(void);
+void Interface_1_Enum(void);
 void Mode_Set(int* Mode);
 void Time_Set(Date_InitTypeDef* Date);
 void Alarm_Set(void);

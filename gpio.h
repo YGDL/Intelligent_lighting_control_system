@@ -65,7 +65,7 @@
 
 #define		Detection_GPIO_CLK		RCC_APB2Periph_GPIOB
 #define		Detection_PORT			GPIOB
-#define		Detection_PIN			GPIO_Pin_10
+#define		Detection_PIN			GPIO_Pin_1
 
 #define		Detection				GPIO_ReadInputDataBit(Detection_PORT, Detection_PIN)
 
