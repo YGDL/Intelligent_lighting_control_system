@@ -16,15 +16,19 @@ void RTC_IRQHandler(void)
 	{
 		RTC_Get();										//更新时间
 		
-		if(Alarm == 0)
+		if(Alarm == 0)									//开启闹钟
 		{
 			Alarm = 1;
 			RTC_SetAlarm(RTC_GetCounter() - (Date.hour * 3600 + Date.minute * 60 + Date.second) + (BKP_ReadBackupRegister(BKP_DR1) & 0x1f) * 3600 + (BKP_ReadBackupRegister(BKP_DR2) & 0x3f) + ((BKP_ReadBackupRegister(BKP_DR2) >> 6) & 0x3f) * 60);
+			
+			TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);	//使能TIM3
 		}
-		else
+		else											//关闭闹钟
 		{
 			Alarm = 0;
 			RTC_SetAlarm(RTC_GetCounter() - (Date.hour * 3600 + Date.minute * 60 + Date.second) + (BKP_ReadBackupRegister(BKP_DR3) & 0x1f) * 3600 + (BKP_ReadBackupRegister(BKP_DR4) & 0x3f) + ((BKP_ReadBackupRegister(BKP_DR4) >> 6) & 0x3f) * 60);
+			
+			TIM_ITConfig(TIM3, TIM_IT_Update, DISABLE);	//失能TIM3
 		}
 	}
 	RTC_ClearITPendingBit(RTC_IT_SEC|RTC_IT_OW);		//清闹钟中断

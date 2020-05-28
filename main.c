@@ -31,6 +31,8 @@ int main()
 	Light_Init();
 	RTC_Init();
 	
+	LED_ON;
+	
 	while(1)
 	{
 		if(KEY_1 == 0)

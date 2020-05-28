@@ -50,9 +50,9 @@
 #define		LED_PORT				GPIOB
 #define		LED_PIN					GPIO_Pin_12
 
-#define		LED_ON					GPIO_ResetBits( LED_PORT, LED_PIN )
-#define		LED_OFF					GPIO_SetBits( LED_PORT, LED_PIN )
-#define 	LED_REVERSAL			{LED_PORT -> ODR ^= LED_PIN;}
+#define		LED_ON					GPIO_ResetBits( LED_PORT, LED_PIN )			//ÖØÖÃ
+#define		LED_OFF					GPIO_SetBits( LED_PORT, LED_PIN )			//ÖÃÎ»
+#define 	LED_REVERSAL			{LED_PORT -> ODR ^= LED_PIN;}				//·­×ª
 #define		LED						GPIO_ReadInputDataBit(LED_PORT, LED_PIN)
 
 //ADC

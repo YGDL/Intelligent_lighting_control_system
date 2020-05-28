@@ -674,25 +674,33 @@ void Alarm_Time_Set_(void)				//完成时间顺序的判定
 	Backup_Data_2 = BKP_ReadBackupRegister(BKP_DR3) << 16 | BKP_ReadBackupRegister(BKP_DR4);
 	Alarm_1 = (Backup_Data_2 & 0x3f) + ((Backup_Data_2 >> 6) & 0x3f) * 60 + ((Backup_Data_2 >> 16) & 0x1f) * 3600;		//闹钟2值
 	
-	if(Now_Time < Alarm_1 || Now_Time > Alarm_0)
+	if(Now_Time < Alarm_1 || Now_Time > Alarm_0)			//设置开灯时间
 	{
-		Alarm = 0;						//表明关灯状态
+		
 		if((Backup_Data_1 >> 31) == 1)
 		{
+			Alarm = 0;						//表明关灯状态
+			
 			RTC_WaitForLastTask();		//等待最近一次对RTC寄存器的写操作完成
 			RTC_SetAlarm(Time_Count - Now_Time + Alarm_1);				//设置闹钟的值
 			RTC_WaitForLastTask();		//等待最近一次对RTC寄存器的写操作完成
+			
+			TIM_ITConfig(TIM3, TIM_IT_Update, DISABLE);		//失能TIM3
 		}
 			
 	}
-	else
+	else													//设置关灯时间
 	{
-		Alarm = 1;						//表明开灯状态
+		
 		if((Backup_Data_2 >> 31) == 1)
 		{
+			Alarm = 1;						//表明开灯状态
+			
 			RTC_WaitForLastTask();		//等待最近一次对RTC寄存器的写操作完成
 			RTC_SetAlarm(Time_Count - Now_Time + Alarm_0);
 			RTC_WaitForLastTask();		//等待最近一次对RTC寄存器的写操作完成
+			
+			TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);		//使能TIM3
 		}
 	}
 }

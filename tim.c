@@ -17,7 +17,7 @@ void TIM1_Init(void)
 	
 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);				//根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
 	
-	TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);					//使能中断
+	//TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);					//使能中断
 	
 	TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 	
